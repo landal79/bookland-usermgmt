@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>User Phones</h1>
+
+		<h:form id="newPhoneForm">
+			<h:messages id="messages" styleClass="messages" errorClass="invalid"
+				infoClass="valid" warnClass="warning" />
+
+			<h2>Inserisci Telefono</h2>
+			<h:panelGroup id="newPanel">
+				<h:outputLabel for="phone" value="Numero:" />
+				<h:inputText id="phone"
+					value="#{userPhoneListController.phoneNumber}" />
+				<h:outputText value=" " />
+				<h:commandButton value="save">
+					<f:ajax execute="newPhoneForm" render="messages :phonesPanel"
+						listener="#{userPhoneListController.save}">
+						<f:param name="userId" value="#{userId}" />
+					</f:ajax>
+				</h:commandButton>
+			</h:panelGroup>
+		</h:form>
+
+		<h:panelGroup id="phonesPanel">
+			<h2>Phones</h2>			
+			<h:dataTable id="phonesTable" var="phone" value="#{phones}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Telefono</f:facet>
+                #{phone.phoneNumber}
+            </h:column>
+				<h:column>
+					<f:facet name="header">#</f:facet>
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>

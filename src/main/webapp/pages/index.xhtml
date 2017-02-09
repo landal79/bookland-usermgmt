@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>User Management</h1>
+
+		<h:form id="newUserForm">
+			<h:messages id="messages" styleClass="messages" errorClass="invalid"
+				infoClass="valid" warnClass="warning" />
+
+			<h2>#{msg['user.edit.title']}</h2>
+			<h:panelGroup id="newUserPanel">
+				<h:outputLabel for="name" value="Nome:" />
+				<h:inputText id="name" value="#{newUser.name}" />
+				<h:outputText value=" " />
+				<h:outputLabel for="surname" value="Cognome:" />
+				<h:inputText id="surname" value="#{newUser.surname}" />
+				<h:outputText value=" " />
+				<h:outputLabel for="dateOfBirth" value="Data:" />
+				<h:inputText id="dateOfBirth" value="#{newUser.dateOfBirth}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:inputText>
+				<h:outputText value=" " />
+				<h:outputLabel for="state" value="Stato di nascita" />
+				<h:selectOneMenu id="state" value="#{newUser.state}">
+					<f:selectItems value="#{states}" />
+				</h:selectOneMenu>
+				<h:outputText value=" " />
+				<h:commandButton value="save">
+					<f:ajax execute="@form" render="userPanel"
+						listener="#{userController.save}" />
+				</h:commandButton>
+			</h:panelGroup>
+		</h:form>
+
+		<h:panelGroup id="userPanel">
+			<h2>Users</h2>
+			<h:dataTable id="usersTable" var="user" value="#{users}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+                #{user.name}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Cognome</f:facet>
+                #{user.surname}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Data di nascita</f:facet>
+					<h:outputText value="#{user.dateOfBirth}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Stato di nascita</f:facet>
+                #{user.state}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Telefoni</f:facet>
+					<h:outputLink target="_blank" value="phones.jsf"> #
+						<f:param name="userId" value="#{user.id}" />
+					</h:outputLink>
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
+		<br/><br/>
+		<h:form id="searchForm">
+			<h:panelGrid id="searchPanel" columns="2"
+				rendered="#{not empty users}">
+				<h:outputLabel for="name" value="Nome" />
+				<h:inputText id="name" value="#{searchFilter.name}" />
+
+				<h:outputLabel for="surname" value="Cognome" />
+				<h:inputText id="surname" value="#{searchFilter.surname}" />
+
+				<h:outputLabel for="hasNumber" value="Con telefono" />
+				<h:selectBooleanCheckbox id="hasNumber"
+					value="#{searchFilter.hasNumber}" />
+
+				<h:commandButton value="Filtra">
+					<f:ajax execute="searchForm" render="userPanel"
+						listener="#{userListcontroller.filter}" />
+				</h:commandButton>
+
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
