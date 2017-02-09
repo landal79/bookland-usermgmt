@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="userForm" styleClass="form">
+            <h:messages id="messages" styleClass="messages" errorClass="invalid"
+                        infoClass="valid" warnClass="warning"/>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">#{msg['user.edit.title']}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            <h:outputLabel for="name" value="Nome:"/>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <h:inputText id="name" value="#{newUser.name}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            <h:outputLabel for="surname" value="Cognome:"/>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <h:inputText id="surname" value="#{newUser.surname}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            <h:outputLabel for="dateOfBirth" value="Data:"/>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <h:inputText id="dateOfBirth" value="#{newUser.dateOfBirth}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:inputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            <h:outputLabel for="state" value="Stato di nascita"/>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <h:selectOneMenu id="state" value="#{newUser.state}">
+                                <f:selectItems value="#{states}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-offset-10 col-sm-2 btn-group">
+                            <h:commandButton value="save" action="#{userController.save}" styleClass="btn btn-primary">
+
+                            </h:commandButton>
+                            <h:commandButton value="Cancel"
+                                             action="#{userController.cancel}"
+                                             styleClass="btn btn-error"
+                                             immediate="true">
+
+                            </h:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

@@ -32,7 +32,7 @@ public class UserController {
         newUser = new User();
     }
 
-    public void save(AjaxBehaviorEvent event) throws Exception {
+    public String save() throws Exception {
         try {
             userService.save(newUser);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
@@ -43,6 +43,12 @@ public class UserController {
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
             facesContext.addMessage(null, m);
         }
+
+        return "index";
+    }
+
+    public String cancel() {
+        return "index";
     }
 
 
