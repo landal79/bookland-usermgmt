@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.landal.bookland.usrmgmt.model.Sex;
 import org.landal.bookland.usrmgmt.model.User;
 import org.landal.bookland.usrmgmt.service.UserService;
 
@@ -30,6 +31,12 @@ public class UserController {
     @PostConstruct
     public void initialize() {
         newUser = new User();
+    }
+
+    @Produces
+    @Named
+    public Sex[] sexList() {
+        return Sex.values();
     }
 
     public String save() throws Exception {

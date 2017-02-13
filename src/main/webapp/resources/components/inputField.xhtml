@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="label" />
+    <composite:attribute name="compId" />
+</composite:interface>
+
+<composite:implementation>
+    <div class="form-group">
+        <h:outputLabel for="#{cc.attrs.compId}" value="#{cc.attrs.label}" styleClass="col-sm-2" style="text-transform: capitalize;" />
+        <div class="col-sm-10">
+            <composite:insertChildren />
+            <h:message for="#{cc.attrs.compId}" showSummary="true" showDetail="false" />
+        </div>
+    </div>
+</composite:implementation>
+
+</html>

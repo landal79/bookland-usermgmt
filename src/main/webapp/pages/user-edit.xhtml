@@ -3,11 +3,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:comp="http://java.sun.com/jsf/composite/components"
                 template="/WEB-INF/templates/default.xhtml">
 
     <ui:define name="content">
 
-        <h:form id="userForm" styleClass="form">
+        <h:form id="userForm" styleClass="form-horizontal">
             <h:messages id="messages" styleClass="messages" errorClass="invalid"
                         infoClass="valid" warnClass="warning"/>
 
@@ -16,60 +17,42 @@
                     <h3 class="panel-title">#{msg['user.edit.title']}</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                            <h:outputLabel for="name" value="Nome:"/>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <h:inputText id="name" value="#{newUser.name}"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                            <h:outputLabel for="surname" value="Cognome:"/>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <h:inputText id="surname" value="#{newUser.surname}"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                            <h:outputLabel for="dateOfBirth" value="Data:"/>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <h:inputText id="dateOfBirth" value="#{newUser.dateOfBirth}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                            <h:outputLabel for="state" value="Stato di nascita"/>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-                            <h:selectOneMenu id="state" value="#{newUser.state}">
-                                <f:selectItems value="#{states}"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </div>
+                    <comp:inputField compId="name" label="#{msg['user.edit.name']}">
+                        <h:inputText id="name" value="#{newUser.name}" styleClass="form-control" required="true"/>
+                    </comp:inputField>
+                    <comp:inputField compId="surname" label="#{msg['user.edit.surname']}">
+                        <h:inputText id="surname" value="#{newUser.surname}" styleClass="form-control" required="true"/>
+                    </comp:inputField>
+                    <comp:inputField compId="dateOfBirth" label="#{msg['user.edit.dateOfBirth']}">
+                        <h:inputText id="dateOfBirth" value="#{newUser.dateOfBirth}" styleClass="form-control">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:inputText>
+                    </comp:inputField>
+                    <comp:inputField compId="sex" label="#{msg['user.edit.sex']}">
+                        <h:selectOneRadio label="Sex"
+                                          id="sex" value="#{userBean.sex}"
+                                          required="true">
+                            <f:selectItems value="#{sexList}" var="sex"
+                                           itemValue="#{sex}" itemLabel="#{msg['user.edit.' += sex]}"/>
+                        </h:selectOneRadio>
+                    </comp:inputField>
+                    <comp:inputField compId="state" label="#{msg['user.edit.state']}">
+                        <h:selectOneMenu id="state" value="#{newUser.state}" styleClass="form-control">
+                            <f:selectItems value="#{states}"/>
+                        </h:selectOneMenu>
+                    </comp:inputField>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-sm-offset-10 col-sm-2 btn-group">
-                            <h:commandButton value="save" action="#{userController.save}" styleClass="btn btn-primary">
-
+                            <h:commandButton value="save"
+                                             action="#{userController.save}"
+                                             styleClass="btn btn-primary">
                             </h:commandButton>
                             <h:commandButton value="Cancel"
                                              action="#{userController.cancel}"
-                                             styleClass="btn btn-error"
+                                             styleClass="btn btn-warning"
                                              immediate="true">
-
                             </h:commandButton>
                         </div>
                     </div>
