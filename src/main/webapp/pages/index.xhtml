@@ -25,7 +25,7 @@
 
                         <h:panelGroup layout="block" styleClass="form-group">
                             <h:outputLabel for="hasNumber" value="Con telefono" styleClass="control-label"/>
-                            <h:selectBooleanCheckbox id="hasNumber" value="#{searchFilter.hasNumber}" />
+                            <h:selectBooleanCheckbox id="hasNumber" value="#{searchFilter.hasNumber}"/>
                         </h:panelGroup>
 
                         <h:panelGroup layout="block" styleClass="form-group">
@@ -38,26 +38,42 @@
                     </h:panelGroup>
 
                     <h:panelGroup id="userPanel">
-
+                        <h:panelGroup rendered="#{empty users}" styleClass="jumbotron" layout="block">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <h3>
+                                            <h:outputText value="#{msg['user.list.empty']}"/>
+                                        </h3>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <h:outputLink value="user-edit.jsf" styleClass="btn btn-default" title="#{msg['user.list.new']}">
+                                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        </h:outputLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:panelGroup>
                         <h:dataTable id="usersTable"
                                      var="user"
                                      value="#{users}"
+                                     rendered="#{not empty users}"
                                      styleClass="table table-striped">
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputLink value="user-edit.jsf">
-                                       <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                        <i class="fa fa-user-plus" aria-hidden="true"></i>
                                     </h:outputLink>
                                 </f:facet>
                                 #{user.id}
                             </h:column>
 
                             <h:column>
-                                <f:facet name="header">Nome</f:facet>
+                                <f:facet name="header">#{msg['user.edit.name']}</f:facet>
                                 #{user.name}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Cognome</f:facet>
+                                <f:facet name="header">#{msg['user.edit.surname']}</f:facet>
                                 #{user.surname}
                             </h:column>
                             <h:column>

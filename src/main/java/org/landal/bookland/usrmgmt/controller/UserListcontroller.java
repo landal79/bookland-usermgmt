@@ -19,12 +19,9 @@ import org.landal.bookland.usrmgmt.service.UserService;
 @Model
 public class UserListcontroller {
 	
-	private static final List<String> STATES;
+
 	
-	static {
-		STATES = Arrays.asList("Italia","Usa","Francia","Germania","Spagna");
-		Collections.sort(STATES);
-	}
+
 
     @Inject
     private UserService userService;
@@ -43,11 +40,7 @@ public class UserListcontroller {
     	searchFilter = new User();
     }
     
-    @Produces
-    @Named
-    public List<String> getStates() {
-    	return STATES;
-    }
+
 
     @Produces
     @Named
