@@ -1,19 +1,21 @@
-package org.landal.bookland.usrmgmt.controller;
+package org.landal.bookland.usrmgmt.jsf.controllers;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Model
-public class StateController {
+@Named
+@ViewScoped
+public class StateController implements Serializable {
 
     private static final List<String> STATES;
 

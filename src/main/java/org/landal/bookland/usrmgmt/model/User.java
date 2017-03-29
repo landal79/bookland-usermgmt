@@ -33,13 +33,12 @@ import org.hibernate.validator.constraints.Email;
 @Entity
 @XmlRootElement
 @Table(name = "USERS")
-public class User implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "user.getAll", query = "select u from User as u")
+})
+public class User extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @NotNull
     @Size(min = 1, max = 25)
@@ -64,6 +63,12 @@ public class User implements Serializable {
 
     private String city;
 
+    private Address address;
+
+    public User() {
+        this.address = new Address();
+    }
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "OWNER_ID")
     private Set<PhoneNumber> phoneNumbers;
@@ -71,13 +76,23 @@ public class User implements Serializable {
     @Transient
     private Boolean hasNumber;
 
-    public Long getId() {
-        return id;
+    public void addPhone(String phoneNumber) {
+        if (StringUtils.isBlank(phoneNumber)) {
+            throw new IllegalArgumentException();
+        }
+
+        PhoneNumber number = new PhoneNumber();
+        number.setPhoneNumber(phoneNumber);
+
+        if (phoneNumbers == null) {
+            phoneNumbers = new HashSet<>();
+        }
+
+        phoneNumbers.add(number);
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    ///// Getters/Setters
 
     public String getName() {
         return name;
@@ -151,20 +166,12 @@ public class User implements Serializable {
         this.hasNumber = hasNumber;
     }
 
-    public void addPhone(String phoneNumber) {
-        if (StringUtils.isBlank(phoneNumber)) {
-            throw new IllegalArgumentException();
-        }
 
-        PhoneNumber number = new PhoneNumber();
-        number.setPhoneNumber(phoneNumber);
-
-        if (phoneNumbers == null) {
-            phoneNumbers = new HashSet<>();
-        }
-
-        phoneNumbers.add(number);
-
+    public Address getAddress() {
+        return address;
     }
 
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }

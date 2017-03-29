@@ -5,10 +5,16 @@
               version="2.2">
 
     <application>
+        <resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>
         <resource-bundle>
             <base-name>org.landal.bookland.usrmgmt.messages</base-name>
             <var>msg</var>
         </resource-bundle>
+        <message-bundle>
+            org.landal.bookland.usrmgmt.ErrorMessages
+        </message-bundle>
     </application>
+
+
 
 </faces-config>

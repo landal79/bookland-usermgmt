@@ -1,4 +1,4 @@
-package org.landal.bookland.usrmgmt.service;
+package org.landal.bookland.usrmgmt.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.landal.bookland.usrmgmt.model.User;
@@ -36,6 +37,17 @@ public class UserService {
 
 		userEvent.fire(user);
 
+	}
+
+	public void remove(User user) {
+		Preconditions.checkNotNull(user);
+		user = em.find(User.class, user.getId());
+		em.remove(user);
+	}
+
+	public void remove(Long id) {
+		Preconditions.checkNotNull(id);
+		remove(em.find(Long.class, id));
 	}
 
 	public User findById(Long id) {

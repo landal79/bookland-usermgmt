@@ -3,42 +3,47 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <div class="row">
             <div class="col-md-12 col-lg-12">
 
-                <h2>Users</h2>
+                <h2>
+                    <i class="fa fa-users" aria-hidden="true"></i> Users
+                </h2>
 
                 <h:form id="searchForm" styleClass="form-inline">
 
-                    <h:panelGroup id="searchPanel" styleClass="#{empty users ? 'hidden' : ''}" layout="block">
+                    <b:growl id="growlMsg" globalOnly="true" placementFrom="bottom"
+                             show-detail="true" show-summary="false" allowDismiss="true"
+                             delay="1000" newestOnTop="true" escape="true"  />
+
+                    <h:messages id="messages" styleClass="messages" errorClass="invalid"
+                                infoClass="valid" warnClass="warning" globalOnly="true"/>
+
+                    <h:panelGroup id="searchPanel" styleClass="#{empty userListController.users ? 'hidden' : ''}" layout="block">
                         <h:panelGroup layout="block" styleClass="form-group">
                             <h:outputLabel for="sfname" value="Nome" styleClass="control-label"/>
-                            <h:inputText id="sfname" value="#{searchFilter.name}" styleClass="form-control"/>
+                            <h:inputText id="sfname" value="#{userListController.searchFilter.name}" styleClass="form-control">
+                                <f:validateBean disabled="true" />
+                            </h:inputText>
                         </h:panelGroup>
-
                         <h:panelGroup layout="block" styleClass="form-group">
                             <h:outputLabel for="sfsurname" value="Cognome" styleClass="control-label"/>
-                            <h:inputText id="sfsurname" value="#{searchFilter.surname}" styleClass="form-control"/>
+                            <h:inputText id="sfsurname" value="#{userListController.searchFilter.surname}" styleClass="form-control">
+                                <f:validateBean disabled="true" />
+                            </h:inputText>
                         </h:panelGroup>
-
                         <h:panelGroup layout="block" styleClass="form-group">
-                            <h:outputLabel for="hasNumber" value="Con telefono" styleClass="control-label"/>
-                            <h:selectBooleanCheckbox id="hasNumber" value="#{searchFilter.hasNumber}"/>
-                        </h:panelGroup>
-
-                        <h:panelGroup layout="block" styleClass="form-group">
-                            <h:commandButton value="Filtra" styleClass="btn btn-default">
-                                <f:ajax execute="@form" render="userPanel"
-                                        listener="#{userListcontroller.filter}"/>
+                            <h:commandButton id="filterBtn" value="Filtra" styleClass="btn btn-default">
+                                <f:ajax execute="sfname sfsurname" render="userPanel messages" listener="#{userListController.onFilter}" />
                             </h:commandButton>
                         </h:panelGroup>
-
                     </h:panelGroup>
-
                     <h:panelGroup id="userPanel">
-                        <h:panelGroup rendered="#{empty users}" styleClass="jumbotron" layout="block">
+                        <h:panelGroup rendered="#{empty userListController.users}" styleClass="jumbotron" layout="block">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
@@ -47,23 +52,24 @@
                                         </h3>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
-                                        <h:outputLink value="user-edit.jsf" styleClass="btn btn-default" title="#{msg['user.list.new']}">
-                                            <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                        </h:outputLink>
+                                        <h:link outcome="user/edit" styleClass="btn btn-default"
+                                                      title="#{msg['user.list.new']}">
+                                            <i class="fa fa-5x fa-user-plus" aria-hidden="true"></i>
+                                        </h:link>
                                     </div>
                                 </div>
                             </div>
                         </h:panelGroup>
                         <h:dataTable id="usersTable"
                                      var="user"
-                                     value="#{users}"
-                                     rendered="#{not empty users}"
-                                     styleClass="table table-striped">
+                                     value="#{userListController.users}"
+                                     rendered="#{not empty userListController.users}"
+                                     styleClass="table table-striped table-hover">
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputLink value="user-edit.jsf">
+                                    <h:link outcome="user/edit">
                                         <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                    </h:outputLink>
+                                    </h:link>
                                 </f:facet>
                                 #{user.id}
                             </h:column>
@@ -91,6 +97,16 @@
                                 <h:outputLink target="_blank" value="phones.jsf"> #
                                     <f:param name="userId" value="#{user.id}"/>
                                 </h:outputLink>
+                            </h:column>
+                            <h:column>
+                                <h:commandLink action="#{userListController.onDeleteUser(user)}" immediate="true">
+                                    <f:ajax execute="@this" render="@form"/>
+                                    <i class="fa fa-2x fa-trash" aria-hidden="true"></i>
+                                </h:commandLink>
+                                <h:link outcome="user/edit">
+                                    <f:param name="id" value="#{user.id}"/>
+                                    <i class="fa fa-2x fa-pencil-square-o" aria-hidden="true"></i>
+                                </h:link>
                             </h:column>
                         </h:dataTable>
                     </h:panelGroup>

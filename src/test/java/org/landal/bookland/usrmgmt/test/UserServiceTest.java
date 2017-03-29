@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.landal.bookland.usrmgmt.util.Resources;
 import org.landal.bookland.usrmgmt.model.User;
-import org.landal.bookland.usrmgmt.service.UserService;
+import org.landal.bookland.usrmgmt.services.UserService;
 
 @RunWith(Arquillian.class)
 public class UserServiceTest {

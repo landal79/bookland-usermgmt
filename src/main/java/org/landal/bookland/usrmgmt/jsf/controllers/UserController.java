@@ -1,22 +1,24 @@
-package org.landal.bookland.usrmgmt.controller;
+package org.landal.bookland.usrmgmt.jsf.controllers;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.landal.bookland.usrmgmt.model.Sex;
 import org.landal.bookland.usrmgmt.model.User;
-import org.landal.bookland.usrmgmt.service.UserService;
+import org.landal.bookland.usrmgmt.services.UserService;
+
+import java.io.Serializable;
 
 
-@Model
-public class UserController {
+@Named
+@ViewScoped
+public class UserController implements Serializable{
 
     @Inject
     private FacesContext facesContext;
@@ -24,13 +26,23 @@ public class UserController {
     @Inject
     private UserService userService;
 
-    @Produces
-    @Named
-    private User newUser;
+    private Long userId;
+
+    private User user;
 
     @PostConstruct
     public void initialize() {
-        newUser = new User();
+
+
+    }
+
+    public void onload() {
+        if (!facesContext.isPostback() && userId != null) {
+            user = userService.findById(userId);
+        }
+        else if (user == null) {
+            user = new User();
+        }
     }
 
     @Produces
@@ -41,7 +53,7 @@ public class UserController {
 
     public String save() throws Exception {
         try {
-            userService.save(newUser);
+            userService.save(user);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initialize();
@@ -51,12 +63,24 @@ public class UserController {
             facesContext.addMessage(null, m);
         }
 
-        return "index";
+        return "/pages//index?faces-redirect=true";
     }
 
-    public String cancel() {
-        return "index";
+   ///////// getters/Setters
+
+    public User getUser() {
+        return user;
     }
 
+    public void setUser(User newUser) {
+        this.user = user;
+    }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

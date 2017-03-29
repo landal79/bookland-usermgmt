@@ -1,4 +1,4 @@
-package org.landal.bookland.usrmgmt.controller;
+package org.landal.bookland.usrmgmt.jsf.controllers;
 
 import java.util.Collections;
 import java.util.Set;
@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.landal.bookland.usrmgmt.model.PhoneNumber;
 import org.landal.bookland.usrmgmt.model.User;
-import org.landal.bookland.usrmgmt.service.UserService;
+import org.landal.bookland.usrmgmt.services.UserService;
 
 @Model
 public class UserPhoneListController {
