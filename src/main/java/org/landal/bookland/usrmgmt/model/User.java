@@ -53,9 +53,11 @@ public class User extends AbstractEntity {
     @NotNull
     private Date dateOfBirth;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
+    @NotNull
     @Email
     private String email;
 

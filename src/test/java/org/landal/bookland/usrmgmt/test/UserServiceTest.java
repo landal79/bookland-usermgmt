@@ -18,6 +18,7 @@ package org.landal.bookland.usrmgmt.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.landal.bookland.usrmgmt.model.Sex;
 import org.landal.bookland.usrmgmt.util.Resources;
 import org.landal.bookland.usrmgmt.model.User;
 import org.landal.bookland.usrmgmt.services.UserService;
@@ -39,7 +41,8 @@ public class UserServiceTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(User.class, UserService.class, Resources.class)
+                .addPackages(true, User.class.getPackage())
+                .addClasses(UserService.class, Resources.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource("test-ds.xml");
@@ -56,8 +59,12 @@ public class UserServiceTest {
         User newMember = new User();
         newMember.setName("Jane");
         newMember.setSurname("Doe");
+        newMember.setSex(Sex.FEMALE);
+        newMember.setDateOfBirth(new Date());
+        newMember.setEmail("email@email.org");
         userService.save(newMember);
         assertNotNull(newMember.getId());
+
         log.info(newMember.getName() + " was persisted with id " + newMember.getId());
     }
 
