@@ -70,6 +70,13 @@
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -141,6 +148,22 @@
             <version>21.0</version>
         </dependency>
 
+        <!-- deltaspike -->
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-data-module-api</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-data-module-impl</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jsf-module-api</artifactId>
@@ -166,6 +189,12 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
             <scope>test</scope>
         </dependency>
 

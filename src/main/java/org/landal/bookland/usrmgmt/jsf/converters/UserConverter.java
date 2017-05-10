@@ -26,7 +26,7 @@ public class UserConverter implements Converter {
 
         try {
             Long id = Long.valueOf(value);
-            return userService.findById(id);
+            return userService.findBy(id);
         } catch (NumberFormatException e) {
             throw new ConverterException("The value is not a valid ID: " + value, e);
         }

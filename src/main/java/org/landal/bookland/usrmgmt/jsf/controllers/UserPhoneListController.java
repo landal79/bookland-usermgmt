@@ -42,7 +42,7 @@ public class UserPhoneListController {
 			return;
 		}
 
-		user = userService.findById(Long.valueOf(userId));
+		user = userService.findBy(Long.valueOf(userId));
 	}
 
 	public void save(AjaxBehaviorEvent event) throws Exception {

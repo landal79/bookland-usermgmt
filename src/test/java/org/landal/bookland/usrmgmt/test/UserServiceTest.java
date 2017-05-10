@@ -18,10 +18,12 @@ package org.landal.bookland.usrmgmt.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -29,6 +31,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.landal.bookland.usrmgmt.model.Sex;
@@ -40,13 +43,21 @@ import org.landal.bookland.usrmgmt.services.UserService;
 public class UserServiceTest {
     @Deployment
     public static Archive<?> createTestArchive() {
+        File[] files = Maven.resolver().loadPomFromFile("pom.xml")
+                .importRuntimeDependencies().resolve().withTransitivity().asFile();
+
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackages(true, User.class.getPackage())
                 .addClasses(UserService.class, Resources.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("META-INF/apache-deltaspike.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsWebInfResource("test-ds.xml");
+                .addAsWebInfResource("test-ds.xml")
+                .addAsLibraries(files);
     }
+
+    @Inject
+    private UserTransaction userTransaction;
 
     @Inject
     UserService userService;
@@ -56,6 +67,9 @@ public class UserServiceTest {
 
     @Test
     public void testRegister() throws Exception {
+
+        userTransaction.begin();
+
         User newMember = new User();
         newMember.setName("Jane");
         newMember.setSurname("Doe");
@@ -66,6 +80,10 @@ public class UserServiceTest {
         assertNotNull(newMember.getId());
 
         log.info(newMember.getName() + " was persisted with id " + newMember.getId());
+
+        userTransaction.rollback();
+
+
     }
 
 }

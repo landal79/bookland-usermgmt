@@ -38,7 +38,7 @@ public class UserController implements Serializable{
 
     public void onload() {
         if (!facesContext.isPostback() && userId != null) {
-            user = userService.findById(userId);
+            user = userService.findBy(userId);
         }
         else if (user == null) {
             user = new User();
@@ -63,7 +63,7 @@ public class UserController implements Serializable{
             facesContext.addMessage(null, m);
         }
 
-        return "/pages//index?faces-redirect=true";
+        return "/pages/index?faces-redirect=true";
     }
 
    ///////// getters/Setters
