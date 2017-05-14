@@ -51,7 +51,7 @@ public class UserServiceTest {
                 .addClasses(UserService.class, Resources.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("META-INF/apache-deltaspike.properties")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsWebInfResource("beans.xml")
                 .addAsWebInfResource("test-ds.xml")
                 .addAsLibraries(files);
     }
