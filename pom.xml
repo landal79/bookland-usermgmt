@@ -163,7 +163,6 @@
             <version>${version.omnifaces}</version>
         </dependency>
 
-
         <dependency>
             <groupId>net.bootsfaces</groupId>
             <artifactId>bootsfaces</artifactId>
