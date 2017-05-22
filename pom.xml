@@ -59,6 +59,13 @@
                 <!--<type>pom</type>-->
                 <!--<scope>import</scope>-->
             <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.arquillian</groupId>-->
+                <!--<artifactId>arquillian-bom</artifactId>-->
+                <!--<version>1.1.13.Final</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>import</scope>-->
+            <!--</dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -131,7 +138,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${version.apache.commons.lang}</version>
-        </dependency>
+		</dependency>	            
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -143,7 +150,7 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${version.guava}</version>
-        </dependency>
+		</dependency>	
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -209,6 +216,10 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.plugin.compiler}</version>
+            </plugin>
+            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.plugin.war}</version>
                 <configuration>
@@ -264,20 +275,20 @@
             </build>
         </profile>
         <profile>
-            <id>arq-wildfly-managed</id>
+            <id>wildfly-managed</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
         <profile>
-            <id>arq-wildfly-remote</id>
+            <id>wildfly-remote</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
                     <scope>test</scope>
                 </dependency>
