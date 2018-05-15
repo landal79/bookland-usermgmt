@@ -36,9 +36,12 @@
                                              required="true"/>
                             </comp:inputField>
                             <comp:inputField compId="dateOfBirth" label="#{msg['user.edit.dateOfBirth']}">
-                                <b:dateTimePicker id="dateOfBirth" value="#{userController.user.dateOfBirth}" required="true" use-current="false"
-                                    format="D/M/YYYY" icon-awesome="fa-calendar">
-                                </b:dateTimePicker>
+
+                                <comp:inputDate value="#{userController.user.dateOfBirth}" />
+
+                                <!--<b:dateTimePicker id="dateOfBirth" value="#{userController.user.dateOfBirth}" required="true" use-current="false"-->
+                                    <!--format="D/M/YYYY" icon-awesome="fa-calendar">-->
+                                <!--</b:dateTimePicker>-->
 
                             </comp:inputField>
                             <comp:inputField compId="sex" label="#{msg['user.edit.sex']}">
